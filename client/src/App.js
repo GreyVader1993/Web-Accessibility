@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import './App.css';
 import './result.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Example3 from './Example3';
+import JSONPretty from 'react-json-pretty';
 
 class App extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: '',
-  };
+  constructor() {
+    super();
+    this.state = {
+      url: "",
+      responseToPost: ""
+    }
+  }
 
   componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
   }
 
   callApi = async () => {
@@ -28,17 +27,16 @@ class App extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
+    console.log(this.state);
     const response = await fetch('/api/world', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ post: this.state.post }),
+      body: JSON.stringify({ post: this.state.url }),
     });
-    // console.dir(response);
+    debugger;
     const body = await response.text();
-    console.log(body);
-
     this.setState({ responseToPost: body });
   };
 
@@ -48,7 +46,6 @@ class App extends Component {
         <div className="text-center" style={{backgroundColor: "black", padding: "2em"}}>
             <h1 style={{color: "white", fontFamily: "Playfair Display SC"}}>Web Accessibility Test</h1>
         </div>
-        {/* <p>{this.state.response}</p> */}
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
@@ -57,18 +54,13 @@ class App extends Component {
                 <p>
                   <strong>Enter URL:</strong>
                 </p>
-                <input className="form-control"
-                  type="url"
-                  value={this.state.post}
-                  onChange={e => this.setState({ post: e.target.value })}
-                />
+                <input className="form-control" type="url" onChange={event => this.setState({url:event.target.value})}/>
                 <br/>
                 <button className="btn btn-primary" type="submit">Submit</button>
+                <button className="ml-3 btn btn-primary" type="button" onClick={(e) => this.setState({responseToPost: ""})}>Clear</button>
               </form>
               <br/>
-              <p>{this.state.responseToPost}</p>
-              <Example3/>
-              <newdata/>
+              <JSONPretty id="json-pretty" data={this.state.responseToPost}></JSONPretty>
             </div>
           </div>
         </div>

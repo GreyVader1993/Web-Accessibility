@@ -17,7 +17,6 @@ app.get('/api/hello', (req, res) => {
 });
 
 app.post('/api/world', (req, res) => {
-  console.log(req.body);
   text = req.body.post;
   pa11y(text).then(results => {
     // Returns a string with the results formatted as JSON
@@ -26,17 +25,15 @@ app.post('/api/world', (req, res) => {
     // fs.writeFileSync('./client/src/data/results.json', jsonString)
     // console.log(jsonString);
     res.send(jsonString);
+    res.end();
   });
-  pa11y(text).then(async results => {
-      // Returns a string with the results formatted as HTML
-      const htmlResults = await html.results(results);
-      fs.writeFileSync('./client/src/data/results.html', htmlResults)
-      console.log(htmlResults);
-  });
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
-  res.end(`Parsed data belonging to ${req.body.post}`);
+  // pa11y(text).then(async results => {
+  //     // Returns a string with the results formatted as HTML
+  //     const htmlResults = await html.results(results);
+  //     fs.writeFileSync('./client/src/data/results.html', htmlResults)
+  //     console.log(htmlResults);
+  // });
+  // res.end(`Parsed data belonging to ${req.body.post}`);
 });
 
 if (process.env.NODE_ENV === 'production') {
