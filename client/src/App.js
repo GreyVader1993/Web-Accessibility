@@ -35,10 +35,41 @@ class App extends Component {
       },
       body: JSON.stringify({ post: this.state.url }),
     });
-    debugger;
     const body = await response.text();
     this.setState({ responseToPost: body });
   };
+
+  changeStyles() {
+    [...document.getElementsByClassName("__json-string__")].forEach((ele) => {
+      if (ele.innerText === `"error"`) {
+        console.log(ele.innerText);
+        ele.classList.add("red");
+      } 
+      if (ele.innerText === `"notice"`) {
+        console.log(ele.innerText);
+        ele.classList.add("orange");
+      } 
+
+      if (ele.innerText === `"warning"`) {
+        console.log(ele.innerText);
+        ele.classList.add("blue");
+      } 
+    })
+  }
+
+  changeStyles2() {
+    [...document.getElementsByClassName("__json-key__")].forEach((ele) => {
+      if (ele.innerText === `"documentTitle"`) {
+        console.log(ele.innerText);
+        ele.classList.add("red");
+      } 
+    })
+  }
+
+  componentDidUpdate() {
+    this.changeStyles();
+    this.changeStyles2();
+  }
 
   render() {
     return (
@@ -60,7 +91,7 @@ class App extends Component {
                 <button className="ml-3 btn btn-primary" type="button" onClick={(e) => this.setState({responseToPost: ""})}>Clear</button>
               </form>
               <br/>
-              <JSONPretty id="json-pretty" data={this.state.responseToPost}></JSONPretty>
+              <JSONPretty id="json-pretty" data={this.state.responseToPost} keyStyle="font-weight: bold; color:#800080" valueStyle="color:#a6e22e;"></JSONPretty>
             </div>
           </div>
         </div>

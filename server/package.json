@@ -1,9 +1,9 @@
 {
   "name": "wam",
   "version": "1.0.0",
-  "description": "Example on using create-react-app with a Node Express Backend",
+  "description": "Web Accessibility Tester using Pa11y",
   "author": {
-    "name": "Tanmay Dureja",
+    "name": "Tanmay Dureja"
   },
   "scripts": {
     "server": "nodemon server.js",
